@@ -11,7 +11,8 @@ window.Techship = _.extend(Techship, {
     client_code: null,
     header: {},
     ajax_setting: {
-        dataType: 'json',
+        dataType: 'application/json',
+        contentType: 'application/json',
         headers: {}
     },
 
@@ -22,7 +23,7 @@ window.Techship = _.extend(Techship, {
 
     },
     reset_ajax_settings: function () {
-        this.ajax_setting.headers = TECHSHIP_CONFIG.header
+        this.ajax_setting.headers = Object.assign(this.ajax_setting.headers, TECHSHIP_CONFIG.header)
     },
 
     /**
@@ -43,4 +44,19 @@ window.Techship = _.extend(Techship, {
 //start using techship
 Techship.client_code = CLIENT_CODE
 Techship.init()
-let get_shipment_xhr=Techship.get_shipment(94911)
+let get_shipment_xhr = Techship.get_shipment(94911)
+get_shipment_xhr.then(data => {
+    $('#consolelog').append(`data here ${data}`)
+})
+get_shipment_xhr.done(data => {
+    $('#consolelog').append(`data here ${data}`)
+})
+get_shipment_xhr.always((data) => {
+    try {
+        let shipment_details = JSON.parse(data.responseText)
+        $('#consolelog').html('BatchNumber: ' + shipment_details.BatchNumber + ' TransactionNumber: ' + shipment_details.TransactionNumber)
+
+    }catch (e) {
+        console.error(`error: ${e.message}`);
+    }
+})

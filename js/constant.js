@@ -1,6 +1,7 @@
 //this is Sandbox
 const TECHSHIP_CONFIG = {
-    root: 'http://evs.techship.io/api/v2',
+    // root: 'http://evs.techship.io/api/v2',
+    root: '//relay.usvsolutions.com:8080',
     header:
         {
             "x-api-key": '3e5c7041-12c2-dd83-44cf-cd67810986e3',
