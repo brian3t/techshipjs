@@ -37,7 +37,15 @@ window.Techship = _.extend(Techship, {
         return $.ajax(_.extend(this.ajax_setting, {
             url: url
         }))
+    },
+    /**
+     * fetch existing shipment. log into console_log_element
+     * @param console_log_element
+     */
+    fetch_existing_shipment: function (console_log_element) {
+        let shipment_id = $('#existing_shipment_id')
     }
+
 })
 
 
