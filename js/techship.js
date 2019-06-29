@@ -44,6 +44,11 @@ window.Techship = _.extend(Techship, {
      */
     fetch_existing_shipment: function (console_log_element) {
         let shipment_id = $('#existing_shipment_id')
+        let shipment_xhr = this.get_shipment(shipment_id)
+        shipment_xhr.always((data) => {
+            if (!data.responseText) return
+            $(console_log_element).html(data.responseText)
+        })
     }
 
 })
@@ -64,7 +69,7 @@ get_shipment_xhr.always((data) => {
         let shipment_details = JSON.parse(data.responseText)
         $('#consolelog').html('BatchNumber: ' + shipment_details.BatchNumber + ' TransactionNumber: ' + shipment_details.TransactionNumber)
 
-    }catch (e) {
+    } catch (e) {
         console.error(`error: ${e.message}`);
     }
 })
