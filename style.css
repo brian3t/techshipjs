@@ -147,7 +147,7 @@ body {}
     width: 240px;
 }
 #sidebar {
-    min-width: 200px;
+    width: 215px;
     background: #fff;
     color: #fff;
 	position:fixed;
