@@ -7,6 +7,14 @@ var IMAGES = []
  * Required: jQuery
  **/
 
+
+function base64_encode(str) {
+    return btoa(str.replace(/[\u00A0-\u2666]/g, function (c) {
+        return '&#' + c.charCodeAt(0) + ';';
+    }));
+}
+
+
 window.Techship = window.Techship || {}
 window.Techship = _.extend(Techship, {
     client_code: null,
@@ -35,26 +43,46 @@ window.Techship = _.extend(Techship, {
         let img_element = $('#shipment_table .shipment_id').siblings('.img')
         const base_url = 'http://api.labelary.com/v1/printers/24dpmm/labels/4x6/0/'
         try {
-            let raw_zpl_decoded = window.atob(raw_zpl_encoded)
-            $.post(base_url, raw_zpl_decoded, 'application/x-www-form-urlencoded')
-                .done((image) => {
+            let raw_zpl = window.atob(raw_zpl_encoded)
+            $.ajax({
+                url: base_url, todo here call relayserver
+                method: 'POST',
+                contentType: 'application/x-www-form-urlencoded',
+                // headers: {  },//expect png
+                headers: { 'Accept': 'application/pdf' },//expect pdf
+                // dataType: 'image/png',
+                // dataType: 'text',
+                // data: raw_zpl,
+                data: '^XA\\r\\n\\r\\n^FX Top section with company logo, name and address.\\r\\n^CF0,60\\r\\n^FO50,50^GB100,100,100^FS\\r\\n^FO75,75^FR^GB100,100,100^FS\\r\\n^FO88,88^GB50,50,50^FS\\r\\n^FO220,50^FDInternational Shipping, Inc.^FS\\r\\n^CF0,40\\r\\n^FO220,100^FD1000 Shipping Lane^FS\\r\\n^FO220,135^FDShelbyville TN 38102^FS\\r\\n^FO220,170^FDUnited States (USA)^FS\\r\\n^FO50,250^GB700,1,3^FS\\r\\n\\r\\n^FX Second section with recipient address and permit information.\\r\\n^CFA,30\\r\\n^FO50,300^FDJohn Doe^FS\\r\\n^FO50,340^FD100 Main Street^FS\\r\\n^FO50,380^FDSpringfield TN 39021^FS\\r\\n^FO50,420^FDUnited States (USA)^FS\\r\\n^CFA,15\\r\\n^FO600,300^GB150,150,3^FS\\r\\n^FO638,340^FDPermit^FS\\r\\n^FO638,390^FD123456^FS\\r\\n^FO50,500^GB700,1,3^FS\\r\\n\\r\\n^FX Third section with barcode.\\r\\n^BY5,2,270\\r\\n^FO175,550^BC^FD1234567890^FS\\r\\n\\r\\n^FX Fourth section (the two boxes on the bottom).\\r\\n^FO50,900^GB700,250,3^FS\\r\\n^FO400,900^GB1,250,3^FS\\r\\n^CF0,40\\r\\n^FO100,960^FDShipping Ctr. X34B-1^FS\\r\\n^FO100,1010^FDREF1 F00B47^FS\\r\\n^FO100,1060^FDREF2 BL4H8^FS\\r\\n^CF0,190\\r\\n^FO485,965^FDCA^FS\\r\\n\\r\\n^XZ\\r\\n',
+                processData: false,
+                success: (image) => {
                     if (typeof image !== 'string') {
                         console.error(`returned data is not string`)
                         return img_element.html(`returned data is not string`)
                     }
-                    console.log(`returned img: ${image.slice(0, 20)}`)
-                    if (! image.startsWith('�PNG')) {
+                    // console.log(`returned img: ${image.slice(0, 20)}`)
+                    /*if (! image.startsWith('�PNG')) {
                         console.error(`returned data is not png`)
                         return img_element.html(`returned data is not png`)
-                    }
-                    let new_image = 'data:image/png;base64,' + btoa(unescape(encodeURIComponent(image)))
+                    }*/
+                    let new_image = 'data:image/png,' + image
                     IMAGES.push(new_image)
                     let img = $('<img>')
                     img.prop('src', new_image)
                     img.prop('alt', 'label in png format')
                     img_element.html(img)
+                    img.on('click', () => {
+                            let content = image;
+                            let filename = "label_to_print.png";
+                            let blob = new Blob([content], {
+                                type: "application/png;charset=utf-8"
+                            });
 
-                })
+                            saveAs(blob, filename)
+                        }
+                    );
+                }
+            })
         } catch (e) {
             console.error(`Cannot decode64 ${e.toString()}`)
             return img_element.html(`Cannot decode64 ${e.toString()}`)
@@ -97,7 +125,7 @@ window.Techship = _.extend(Techship, {
         let label_raw = first_label.Label
 
         tr.append(`<td class="shipment_id">${json_ship.Id}</td>`)
-            .append(`<td>${json_ship.BatchNumber}</td>`).append(`<td>${json_ship.PackageDescription}</td>`).append(`<td>${json_ship.ManifestId}</td>`)
+            .append(`<td>${json_ship.BatchNumber}</td>`).append(`<td>${json_ship.ManifestId}</td>`)
             .append(`<td>${json_ship.ClientCode}</td>`).append(`<td>${json_ship.CarrierCode}</td>`).append(`<td>${json_ship.TransactionNumber}</td>`)
             .append(`<td>${json_ship.ShipToName}</td>`).append(`<td>${json_ship.ShipToCity}</td>`).append(`<td>${first_tracking_id}</td>`)
             .append(`<td class="img"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8Vw8AAkEBX6r220kAAAAASUVORK5CYII=" alt=""></td>`)
