@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="10be939c-a32e-45a3-bebc-4d2de9eb428d" name="Default Changelist" comment="next: pull first tracking / first label">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+    <list default="true" id="10be939c-a32e-45a3-bebc-4d2de9eb428d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/js/techship.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/techship.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kiaalap-master/js/c3-charts/d3.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/kiaalap-master/js/c3-charts/d3.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kiaalap-master/js/data-map/d3.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/kiaalap-master/js/data-map/d3.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kiaalap-master/js/select2/select2.full.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/kiaalap-master/js/select2/select2.full.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kiaalap-master/js/sparkline/jquery.sparkline.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/kiaalap-master/js/sparkline/jquery.sparkline.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kiaalap-master/js/summernote/summernote.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/kiaalap-master/js/summernote/summernote.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kiaalap-master/js/tree-line/jstree.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/kiaalap-master/js/tree-line/jstree.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kiaalap-master/js/vendor/modernizr-custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/kiaalap-master/js/vendor/modernizr-custom.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/style.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,8 +24,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="96" column="52" selection-start-line="96" selection-start-column="52" selection-end-line="96" selection-end-column="52" />
+            <state relative-caret-position="274">
+              <caret line="95" column="57" lean-forward="true" selection-start-line="95" selection-start-column="57" selection-end-line="95" selection-end-column="57" />
             </state>
           </provider>
         </entry>
@@ -53,11 +43,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/techship.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="132" column="39" lean-forward="true" selection-start-line="132" selection-start-column="39" selection-end-line="132" selection-end-column="39" />
-              <folding>
-                <element signature="n#src#0;n#img#0;n#td#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="245">
+              <caret line="133" column="37" selection-start-line="133" selection-start-column="37" selection-end-line="133" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -74,8 +61,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/constant.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="40" selection-start-line="2" selection-start-column="40" selection-end-line="2" selection-end-column="40" />
+            <state relative-caret-position="15">
+              <caret line="1" column="21" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -130,7 +117,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -143,6 +129,12 @@
               <item name="techshipjs" type="b2602c69:ProjectViewProjectNode" />
               <item name="techshipjs" type="462c0819:PsiDirectoryNode" />
               <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="techshipjs" type="b2602c69:ProjectViewProjectNode" />
+              <item name="techshipjs" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+              <item name="main.scss" type="620a8d5e:NestingTreeNode" />
             </path>
             <path>
               <item name="techshipjs" type="b2602c69:ProjectViewProjectNode" />
@@ -171,6 +163,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -226,14 +219,21 @@
       <option name="project" value="LOCAL" />
       <updated>1561876060057</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="wiring labelary to relayserver">
+      <created>1562037881177</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1562037881177</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="0" width="1922" height="1055" extended-state="6" />
+    <frame x="-1" y="-1" width="1922" height="1065" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49790356" visible="true" weight="0.12193823" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49790356" visible="true" weight="0.12300319" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" sideWeight="0.5020964" side_tool="true" weight="0.12087327" />
@@ -307,17 +307,12 @@
     <MESSAGE value="basic setup&#10;next:-disable CORS" />
     <MESSAGE value="debug: why xhr doesnt have always? try tagging as xmlhttpresponse?" />
     <MESSAGE value="next: pull first tracking / first label" />
-    <option name="LAST_COMMIT_MESSAGE" value="next: pull first tracking / first label" />
+    <MESSAGE value="wiring labelary to relayserver" />
+    <option name="LAST_COMMIT_MESSAGE" value="wiring labelary to relayserver" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="13" lean-forward="true" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/css/style.css" />
     <entry file="file://$PROJECT_DIR$/kiaalap-master/img/clear.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -328,12 +323,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/kiaalap-master/img/logo/logo.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/main.scss">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -343,25 +332,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/constant.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="40" selection-start-line="2" selection-start-column="40" selection-end-line="2" selection-end-column="40" />
+        <state relative-caret-position="15">
+          <caret line="1" column="21" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="21" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/kiaalap-master/img/logo/logo.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/main.scss">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="96" column="52" selection-start-line="96" selection-start-column="52" selection-end-line="96" selection-end-column="52" />
+        <state relative-caret-position="274">
+          <caret line="95" column="57" lean-forward="true" selection-start-line="95" selection-start-column="57" selection-end-line="95" selection-end-column="57" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/techship.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="132" column="39" lean-forward="true" selection-start-line="132" selection-start-column="39" selection-end-line="132" selection-end-column="39" />
-          <folding>
-            <element signature="n#src#0;n#img#0;n#td#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="245">
+          <caret line="133" column="37" selection-start-line="133" selection-start-column="37" selection-end-line="133" selection-end-column="37" />
         </state>
       </provider>
     </entry>
