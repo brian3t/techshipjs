@@ -41,19 +41,20 @@ window.Techship = _.extend(Techship, {
      */
     get_img_fr_labelary: function (raw_zpl_encoded, shipment_id) {
         let img_element = $('#shipment_table .shipment_id').siblings('.img')
-        const base_url = 'http://api.labelary.com/v1/printers/24dpmm/labels/4x6/0/'
+        // const base_url = 'http://api.labelary.com/v1/printers/24dpmm/labels/4x6/0/'
+        const base_url = TECHSHIP_CONFIG.root + 'get_labelary/'
         try {
             let raw_zpl = window.atob(raw_zpl_encoded)
             $.ajax({
-                url: base_url, todo here call relayserver
-                method: 'POST',
-                contentType: 'application/x-www-form-urlencoded',
+                url: base_url + '/' + raw_zpl_encoded,
+                method: 'GET',
+                // contentType: 'application/x-www-form-urlencoded',
                 // headers: {  },//expect png
-                headers: { 'Accept': 'application/pdf' },//expect pdf
+                // headers: { 'Accept': 'application/pdf' },//expect pdf
                 // dataType: 'image/png',
                 // dataType: 'text',
                 // data: raw_zpl,
-                data: '^XA\\r\\n\\r\\n^FX Top section with company logo, name and address.\\r\\n^CF0,60\\r\\n^FO50,50^GB100,100,100^FS\\r\\n^FO75,75^FR^GB100,100,100^FS\\r\\n^FO88,88^GB50,50,50^FS\\r\\n^FO220,50^FDInternational Shipping, Inc.^FS\\r\\n^CF0,40\\r\\n^FO220,100^FD1000 Shipping Lane^FS\\r\\n^FO220,135^FDShelbyville TN 38102^FS\\r\\n^FO220,170^FDUnited States (USA)^FS\\r\\n^FO50,250^GB700,1,3^FS\\r\\n\\r\\n^FX Second section with recipient address and permit information.\\r\\n^CFA,30\\r\\n^FO50,300^FDJohn Doe^FS\\r\\n^FO50,340^FD100 Main Street^FS\\r\\n^FO50,380^FDSpringfield TN 39021^FS\\r\\n^FO50,420^FDUnited States (USA)^FS\\r\\n^CFA,15\\r\\n^FO600,300^GB150,150,3^FS\\r\\n^FO638,340^FDPermit^FS\\r\\n^FO638,390^FD123456^FS\\r\\n^FO50,500^GB700,1,3^FS\\r\\n\\r\\n^FX Third section with barcode.\\r\\n^BY5,2,270\\r\\n^FO175,550^BC^FD1234567890^FS\\r\\n\\r\\n^FX Fourth section (the two boxes on the bottom).\\r\\n^FO50,900^GB700,250,3^FS\\r\\n^FO400,900^GB1,250,3^FS\\r\\n^CF0,40\\r\\n^FO100,960^FDShipping Ctr. X34B-1^FS\\r\\n^FO100,1010^FDREF1 F00B47^FS\\r\\n^FO100,1060^FDREF2 BL4H8^FS\\r\\n^CF0,190\\r\\n^FO485,965^FDCA^FS\\r\\n\\r\\n^XZ\\r\\n',
+                // data: '^XA\\r\\n\\r\\n^FX Top section with company logo, name and address.\\r\\n^CF0,60\\r\\n^FO50,50^GB100,100,100^FS\\r\\n^FO75,75^FR^GB100,100,100^FS\\r\\n^FO88,88^GB50,50,50^FS\\r\\n^FO220,50^FDInternational Shipping, Inc.^FS\\r\\n^CF0,40\\r\\n^FO220,100^FD1000 Shipping Lane^FS\\r\\n^FO220,135^FDShelbyville TN 38102^FS\\r\\n^FO220,170^FDUnited States (USA)^FS\\r\\n^FO50,250^GB700,1,3^FS\\r\\n\\r\\n^FX Second section with recipient address and permit information.\\r\\n^CFA,30\\r\\n^FO50,300^FDJohn Doe^FS\\r\\n^FO50,340^FD100 Main Street^FS\\r\\n^FO50,380^FDSpringfield TN 39021^FS\\r\\n^FO50,420^FDUnited States (USA)^FS\\r\\n^CFA,15\\r\\n^FO600,300^GB150,150,3^FS\\r\\n^FO638,340^FDPermit^FS\\r\\n^FO638,390^FD123456^FS\\r\\n^FO50,500^GB700,1,3^FS\\r\\n\\r\\n^FX Third section with barcode.\\r\\n^BY5,2,270\\r\\n^FO175,550^BC^FD1234567890^FS\\r\\n\\r\\n^FX Fourth section (the two boxes on the bottom).\\r\\n^FO50,900^GB700,250,3^FS\\r\\n^FO400,900^GB1,250,3^FS\\r\\n^CF0,40\\r\\n^FO100,960^FDShipping Ctr. X34B-1^FS\\r\\n^FO100,1010^FDREF1 F00B47^FS\\r\\n^FO100,1060^FDREF2 BL4H8^FS\\r\\n^CF0,190\\r\\n^FO485,965^FDCA^FS\\r\\n\\r\\n^XZ\\r\\n',
                 processData: false,
                 success: (image) => {
                     if (typeof image !== 'string') {
@@ -67,7 +68,7 @@ window.Techship = _.extend(Techship, {
                     }*/
                     let new_image = 'data:image/png,' + image
                     IMAGES.push(new_image)
-                    let img = $('<img>')
+                    let img = $('<img/>')
                     img.prop('src', new_image)
                     img.prop('alt', 'label in png format')
                     img_element.html(img)
@@ -128,7 +129,9 @@ window.Techship = _.extend(Techship, {
             .append(`<td>${json_ship.BatchNumber}</td>`).append(`<td>${json_ship.ManifestId}</td>`)
             .append(`<td>${json_ship.ClientCode}</td>`).append(`<td>${json_ship.CarrierCode}</td>`).append(`<td>${json_ship.TransactionNumber}</td>`)
             .append(`<td>${json_ship.ShipToName}</td>`).append(`<td>${json_ship.ShipToCity}</td>`).append(`<td>${first_tracking_id}</td>`)
-            .append(`<td class="img"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8Vw8AAkEBX6r220kAAAAASUVORK5CYII=" alt=""></td>`)
+            .append(`<td class="zpl"></td>`)
+            .append(`<td class="img"></td>`)
+            .append(`<td class="pdf"></td>`)
 
         $('#shipment_table').append(tr)
         if (first_label.Type === 2) {//ZPL
