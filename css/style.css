@@ -143,7 +143,7 @@ body {}
     transition: all 0.3s;
 }
 .left-sidebar-pro {
-    z-index: 9999;
+    /* z-index: 9999; */
     width: 240px;
 }
 #sidebar {

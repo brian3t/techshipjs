@@ -59,7 +59,7 @@
                     </li>
                     <li>
                         <a href="#">
-                            <span class="mini-click-non">Create Shipment</span>
+                            <span class="mini-click-non" onclick="Techship.create_shipment()">Create Shipment</span>
                         </a>
                     </li>
                     <li>
@@ -129,6 +129,96 @@
                         </div>
                     </div>
                     <pre id="consolelog">console log will appear here</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="cr8_ship_modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Shipment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Enter shipment details below:</p>
+                    <form>
+                        <div class="form-group row">
+                            <label for="BatchNumber" class="col-sm-3 col-form-label">BatchNumber</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" id="BatchNumber" placeholder="BatchNumber" name="BatchNumber">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="TransactionNumber" class="col-sm-3 col-form-label">TransactionNumber</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="TransactionNumber" name="TransactionNumber" placeholder="TransactionNumber">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="PackageDescription" class="col-sm-3 col-form-label">PackageDescription</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="PackageDescription" name="PackageDescription" placeholder="PackageDescription">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ClientCode" class="col-sm-3 col-form-label">ClientCode</label>
+                            <div class="col-sm-9">
+                                <select name="ClientCode" id="ClientCode" class="custom-control custom-select">
+                                    <option value="TEST" selected>TEST</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="CarrierCode" class="col-sm-3 col-form-label">CarrierCode</label>
+                            <div class="col-sm-9">
+                                <select name="CarrierCode" id="CarrierCode" class="custom-select">
+                                    <option value="UPS" selected>UPS</option>
+                                </select></div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ShipToName" class="col-sm-3 col-form-label">ShipToName</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="ShipToName" name="ShipToName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ShipToAddress1" class="col-sm-3 col-form-label">ShipToAddress1</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="ShipToAddress1" name="ShipToAddress1">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ShipToCity" class="col-sm-3 col-form-label">ShipToCity</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="ShipToCity" name="ShipToCity">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ShipToStateProvince" class="col-sm-3 col-form-label">ShipToStateProvince</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="ShipToStateProvince" name="ShipToStateProvince">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ShipToPostal" class="col-sm-3 col-form-label">ShipToPostal</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="ShipToPostal" name="ShipToPostal">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ShipToCountry" class="col-sm-3 col-form-label">ShipToCountry</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="ShipToCountry" name="ShipToCountry">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button onclick="Techship.call_cr8_ship()" type="button" class="btn btn-primary">Create</button>
                 </div>
             </div>
         </div>

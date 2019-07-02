@@ -72,9 +72,9 @@ window.Techship = _.extend(Techship, {
                     img.prop('alt', 'label in png format')
                     img_element.html(img)
                     img.on('click', () => {
-                        let content = atob(image);
-                        //content = content.slice(1)
-                        // let content = '';
+                            let content = atob(image);
+                            //content = content.slice(1)
+                            // let content = '';
                             let filename = "label_to_print.png";
                             let blob = new Blob([content], {
                                 type: "image/png"
@@ -95,6 +95,7 @@ window.Techship = _.extend(Techship, {
      * @param json_ship
      */
     add_json_data_to_table: function (json_ship) {
+        let $shipment_table = $('#shipment_table')
         if (! json_ship || typeof json_ship !== 'object' || ! (json_ship.BatchNumber)) {
             return console.error(`bad json ship data`);
         }
@@ -130,14 +131,31 @@ window.Techship = _.extend(Techship, {
             .append(`<td>${json_ship.BatchNumber}</td>`).append(`<td>${json_ship.ManifestId}</td>`)
             .append(`<td>${json_ship.ClientCode}</td>`).append(`<td>${json_ship.CarrierCode}</td>`).append(`<td>${json_ship.TransactionNumber}</td>`)
             .append(`<td>${json_ship.ShipToName}</td>`).append(`<td>${json_ship.ShipToCity}</td>`).append(`<td>${first_tracking_id}</td>`)
-            .append(`<td class="zpl"></td>`)
-            .append(`<td class="img"></td>`)
-            .append(`<td class="pdf"></td>`)
+            .append(`<td class="zpl"><button type="button" class="btn btn-primary btn-sm">zpl</button></td>`)
+            .append(`<td class="png">
+<a href="${TECHSHIP_CONFIG.root}/get_labelary/${label_raw}/filetype/png/filename/${json_ship.Id}_${first_package.TrackingNumber}_label.png" target="_blank" class="btn btn-primary btn-sm">png</a>
+</td>`)
+            .append(`<td class="pdf">
+<a href="${TECHSHIP_CONFIG.root}/get_labelary/${label_raw}/filetype/pdf/filename/${json_ship.Id}_${first_package.TrackingNumber}_label.pdf" target="_blank" class="btn btn-primary btn-sm">pdf</a>
+</td>`)
 
-        $('#shipment_table').append(tr)
+        $shipment_table.append(tr)
         if (first_label.Type === 2) {//ZPL
             this.get_img_fr_labelary(first_label.Label, json_ship.Id)
         }
+        $shipment_table.off('click', 'button')
+        $shipment_table.on('click', '.png button,.pdf button', function (e) {
+            let file_type = $(e.targetElement).closest('td').getClass()
+
+        })
+        $shipment_table.on('click', '.zpl button', function (e) {
+            let content = atob(label_raw);
+            let filename = `${json_ship.Id}_${first_package.TrackingNumber}_label_to_print.zpl`;
+            let blob = new Blob([content], {
+                type: "application/text"
+            });
+            saveAs(blob, filename)
+        })
     },
 
     /**
@@ -170,6 +188,42 @@ window.Techship = _.extend(Techship, {
                 console.error(`Cannot parse reply as json: ${data.responseText}`);
             }
         })
+    },
+    /**
+     * Ajax call to relay_server to create ship
+     *      * data_to_send: {
+    "BatchNumber": "testbrian06272121",
+    "TransactionNumber": "testbrian06272121",
+    "PackageDescription": "testpkg06272121",
+    "ClientCode": "{{client-code}}",
+    "CarrierCode": "UPS",
+    "ShipToName": "TEST LABEL DONOT SHIP",
+    "ShipToAddress1": "5995 Dandridge Ln",
+    "ShipToCity": "San Diego",
+    "ShipToStateProvince": "CA",
+    "ShipToPostal": "92115",
+    "ShipToCountry": "US",
+    "Packages": [
+        {
+            "SSCC": "13579",
+            "Weight": 3.3,
+            "BoxWidth": 3,
+            "BoxHeight": 4,
+            "BoxLength": 5
+        }
+    ]
+}
+     */
+    call_cr8_ship: function(){
+
+    },
+    /**
+     * show modal to ask for data, then create shipment
+     */
+    create_shipment: function () {
+        let $cr8_ship_modal = $('#cr8_ship_modal')
+        let modal_options = {}
+        $cr8_ship_modal.modal(modal_options)
     }
 
 })
@@ -194,3 +248,12 @@ get_shipment_xhr.always((data) => {
         console.error(`error: ${e.message}`);
     }
 })*/
+
+$(document).ready(function () {
+    $(document).ajaxStart(function () {
+        $('html').addClass('whirl')
+    })
+    $(document).ajaxStart(function () {
+        $('html').removeClass('whirl')
+    });
+})
