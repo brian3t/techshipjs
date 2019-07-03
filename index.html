@@ -58,8 +58,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            <span class="mini-click-non" onclick="Techship.create_shipment()">Create Shipment</span>
+                        <a href="#" onclick="Techship.create_shipment()">
+                            <span class="mini-click-non">Create Shipment</span>
                         </a>
                     </li>
                     <li>
@@ -144,23 +144,23 @@
                 </div>
                 <div class="modal-body">
                     <p>Enter shipment details below:</p>
-                    <form>
+                    <form id="cr8_ship_form">
                         <div class="form-group row">
                             <label for="BatchNumber" class="col-sm-3 col-form-label">BatchNumber</label>
                             <div class="col-sm-9">
-                                <input class="form-control" id="BatchNumber" placeholder="BatchNumber" name="BatchNumber">
+                                <input class="form-control" id="BatchNumber" name="BatchNumber">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="TransactionNumber" class="col-sm-3 col-form-label">TransactionNumber</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="TransactionNumber" name="TransactionNumber" placeholder="TransactionNumber">
+                                <input type="text" class="form-control" id="TransactionNumber" name="TransactionNumber">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="PackageDescription" class="col-sm-3 col-form-label">PackageDescription</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="PackageDescription" name="PackageDescription" placeholder="PackageDescription">
+                                <input type="text" class="form-control" id="PackageDescription" name="PackageDescription">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -199,7 +199,7 @@
                         <div class="form-group row">
                             <label for="ShipToStateProvince" class="col-sm-3 col-form-label">ShipToStateProvince</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="ShipToStateProvince" name="ShipToStateProvince">
+                                <input type="text" class="form-control" id="ShipToStateProvince" name="ShipToStateProvince" placeholder="e.g. CA, CO">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -211,7 +211,7 @@
                         <div class="form-group row">
                             <label for="ShipToCountry" class="col-sm-3 col-form-label">ShipToCountry</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="ShipToCountry" name="ShipToCountry">
+                                <input type="text" class="form-control" id="ShipToCountry" name="ShipToCountry" placeholder="e.g. US, CA">
                             </div>
                         </div>
                     </form>

@@ -20,6 +20,7 @@ window.Techship = _.extend(Techship, {
     client_code: null,
     header: {},
     ajax_setting: {
+        crossDomain: true,
         dataType: 'application/json',
         contentType: 'application/json',
         headers: {}
@@ -42,19 +43,12 @@ window.Techship = _.extend(Techship, {
     get_img_fr_labelary: function (raw_zpl_encoded, shipment_id) {
         let img_element = $('#shipment_table .shipment_id').siblings('.img')
         // const base_url = 'http://api.labelary.com/v1/printers/24dpmm/labels/4x6/0/'
-        const base_url = TECHSHIP_CONFIG.root + '/get_labelary/'
+        const base_url = TECHSHIP_CONFIG.relay_server + '/get_labelary/'
         try {
             let raw_zpl = window.atob(raw_zpl_encoded)
             $.ajax({
                 url: base_url + raw_zpl_encoded,
                 method: 'GET',
-                // contentType: 'application/x-www-form-urlencoded',
-                // headers: {  },//expect png
-                // headers: { 'Accept': 'application/pdf' },//expect pdf
-                // dataType: 'image/png',
-                // dataType: 'text',
-                // data: raw_zpl,
-                // data: '^XA\\r\\n\\r\\n^FX Top section with company logo, name and address.\\r\\n^CF0,60\\r\\n^FO50,50^GB100,100,100^FS\\r\\n^FO75,75^FR^GB100,100,100^FS\\r\\n^FO88,88^GB50,50,50^FS\\r\\n^FO220,50^FDInternational Shipping, Inc.^FS\\r\\n^CF0,40\\r\\n^FO220,100^FD1000 Shipping Lane^FS\\r\\n^FO220,135^FDShelbyville TN 38102^FS\\r\\n^FO220,170^FDUnited States (USA)^FS\\r\\n^FO50,250^GB700,1,3^FS\\r\\n\\r\\n^FX Second section with recipient address and permit information.\\r\\n^CFA,30\\r\\n^FO50,300^FDJohn Doe^FS\\r\\n^FO50,340^FD100 Main Street^FS\\r\\n^FO50,380^FDSpringfield TN 39021^FS\\r\\n^FO50,420^FDUnited States (USA)^FS\\r\\n^CFA,15\\r\\n^FO600,300^GB150,150,3^FS\\r\\n^FO638,340^FDPermit^FS\\r\\n^FO638,390^FD123456^FS\\r\\n^FO50,500^GB700,1,3^FS\\r\\n\\r\\n^FX Third section with barcode.\\r\\n^BY5,2,270\\r\\n^FO175,550^BC^FD1234567890^FS\\r\\n\\r\\n^FX Fourth section (the two boxes on the bottom).\\r\\n^FO50,900^GB700,250,3^FS\\r\\n^FO400,900^GB1,250,3^FS\\r\\n^CF0,40\\r\\n^FO100,960^FDShipping Ctr. X34B-1^FS\\r\\n^FO100,1010^FDREF1 F00B47^FS\\r\\n^FO100,1060^FDREF2 BL4H8^FS\\r\\n^CF0,190\\r\\n^FO485,965^FDCA^FS\\r\\n\\r\\n^XZ\\r\\n',
                 processData: false,
                 success: (image_base64_enc) => {
                     if (typeof image_base64_enc !== 'string') {
@@ -99,28 +93,6 @@ window.Techship = _.extend(Techship, {
         if (! json_ship || typeof json_ship !== 'object' || ! (json_ship.BatchNumber)) {
             return console.error(`bad json ship data`);
         }
-        /*
-         <tr>
-                                    <td>6</td>
-                                    <td><img
-                                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO8Vw8AAkEBX6r220kAAAAASUVORK5CYII="
-                                            alt=""/></td>
-                                    <td>Quality Bol pen</td>
-                                    <td>
-                                        <button class="ps-setting">Paused</button>
-                                    </td>
-                                    <td>Java</td>
-                                    <td>CSE</td>
-                                    <td>CD</td>
-                                    <td>$1000</td>
-                                    <td>
-                                        <button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o"
-                                                                                                            aria-hidden="true"></i></button>
-                                        <button data-toggle="tooltip" title="Trash" class="pd-setting-ed"><i class="fa fa-trash-o"
-                                                                                                             aria-hidden="true"></i></button>
-                                    </td>
-                                </tr>
-         */
         let tr = $('<tr></tr>')
         let first_package = json_ship.Packages.pop()
         let first_tracking_id = first_package.TrackingNumber || 'N/A'
@@ -133,10 +105,10 @@ window.Techship = _.extend(Techship, {
             .append(`<td>${json_ship.ShipToName}</td>`).append(`<td>${json_ship.ShipToCity}</td>`).append(`<td>${first_tracking_id}</td>`)
             .append(`<td class="zpl"><button type="button" class="btn btn-primary btn-sm">zpl</button></td>`)
             .append(`<td class="png">
-<a href="${TECHSHIP_CONFIG.root}/get_labelary/${label_raw}/filetype/png/filename/${json_ship.Id}_${first_package.TrackingNumber}_label.png" target="_blank" class="btn btn-primary btn-sm">png</a>
+<a href="${TECHSHIP_CONFIG.relay_server}/get_labelary/${label_raw}/filetype/png/filename/${json_ship.Id}_${first_package.TrackingNumber}_label.png" target="_blank" class="btn btn-primary btn-sm">png</a>
 </td>`)
             .append(`<td class="pdf">
-<a href="${TECHSHIP_CONFIG.root}/get_labelary/${label_raw}/filetype/pdf/filename/${json_ship.Id}_${first_package.TrackingNumber}_label.pdf" target="_blank" class="btn btn-primary btn-sm">pdf</a>
+<a href="${TECHSHIP_CONFIG.relay_server}/get_labelary/${label_raw}/filetype/pdf/filename/${json_ship.Id}_${first_package.TrackingNumber}_label.pdf" target="_blank" class="btn btn-primary btn-sm">pdf</a>
 </td>`)
 
         $shipment_table.append(tr)
@@ -165,7 +137,7 @@ window.Techship = _.extend(Techship, {
      */
     get_shipment: function (shipment_id) {
         this.reset_ajax_settings()
-        let url = TECHSHIP_CONFIG.root + `/shipments/${shipment_id}`
+        let url = TECHSHIP_CONFIG.relay_server + `/shipments/${shipment_id}`
         return $.ajax(_.extend(this.ajax_setting, {
             url: url
         }))
@@ -214,7 +186,28 @@ window.Techship = _.extend(Techship, {
     ]
 }
      */
-    call_cr8_ship: function(){
+    call_cr8_ship: function () {
+        let form_serialized_array = $('#cr8_ship_form').serializeArray()
+        let cr8_form_data = serialized_to_object(form_serialized_array)
+        cr8_form_data.Packages = [
+            {SSCC: 13579, Weight: 3.3, BoxWidth: 4.4, BoxHeight: 5.5, BoxLength: 6.6}
+        ]
+        //now submit this to techship
+        this.reset_ajax_settings()
+        let url = TECHSHIP_CONFIG.relay_server + `/shipments/create?duplicateHandling=2&errorLabelMode=0`
+        return $.ajax(_.extend(this.ajax_setting, {
+            url: url,
+            data: JSON.stringify(cr8_form_data),
+            method: 'POST',
+            timeout: 60000,
+            error: (error_msg) => {
+                console.error(`Error creating shipment` + error_msg.toString())
+            },
+            success: (created_ship) => {
+                console.log(`Shipment created__`)
+                console.log(created_ship)
+            }
+        }))
 
     },
     /**
@@ -257,3 +250,14 @@ $(document).ready(function () {
         $('html').removeClass('whirl')
     });
 })
+
+function serialized_to_object(serialized_array) {
+    let object = {}
+    for (let name_value of serialized_array) {
+        if (typeof name_value !== "object" || ! name_value.hasOwnProperty('name') || ! name_value.hasOwnProperty('value')) {
+            continue
+        }
+        object[name_value.name] = name_value.value
+    }
+    return object
+}
