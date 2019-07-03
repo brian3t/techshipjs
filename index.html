@@ -30,6 +30,7 @@
     <!-- style CSS
 		============================================ -->
     <link rel="stylesheet" href="css/whirl.min.css">
+    <link rel="stylesheet" href="lib/jquery.toast.min.css">
     <link rel="stylesheet" href="css/style.css">
     <!-- responsive CSS
 		============================================ -->
@@ -51,10 +52,11 @@
         <div class="left-custom-menu-adp-wrap comment-scrollbar">
             <nav class="sidebar-nav left-sidebar-menu-pro">
                 <ul class="metismenu" id="menu1">
+                    <li></li>
                     <li>
+                        <input type="text" id="existing_shipment_id" placeholder="shipment id.." class="w100" value="94923">
                         <a href="#" onclick="Techship.fetch_existing_shipment('#consolelog')">
-                            <span class="mini-click-non">Add Existing Shipment</span><br>
-                            <input type="text" id="existing_shipment_id" placeholder="shipment id.." class="w100" value="94911">
+                            <span class="mini-click-non">Fetch Existing Shipment</span><br>
                         </a>
                     </li>
                     <li>
@@ -62,10 +64,12 @@
                             <span class="mini-click-non">Create Shipment</span>
                         </a>
                     </li>
-                    <li>
-                        <a title="Landing Page" href="#" aria-expanded="false"><span class="icon-wrap sub-icon-mg" aria-hidden="true"></span> <span
-                                class="mini-click-non">Delete old shipments</span></a>
-                    </li>
+                    <!--<li>
+                        <input type="text" id="delete_existing_shipment_id" placeholder="shipment id.." class="w100">
+                        <a href="#" onclick="Techship.delete_existing_shipment()">
+                            <span class="mini-click-non">Delete Existing Shipment</span><br>
+                        </a>
+                    </li>-->
                 </ul>
             </nav>
         </div>
@@ -223,6 +227,25 @@
             </div>
         </div>
     </div>
+<!--    end cr8 ship dialog-->
+
+    <!-- Flexbox container for aligning the toasts -->
+    <div class="hidden" aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;">
+        <!-- Then put toasts within -->
+        <div id="bs4_toast" style="position: absolute; top: 0; right: 0;" data-delay="2000" data-autohide="true">
+            <div class="toast-header">
+                <strong class="mr-auto">Bootstrap</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body" id="toast_body">
+
+            </div>
+        </div>
+    </div>
+<!--    end bs4 toast-->
+
     <div class="footer-copyright-area">
         <div class="container-fluid">
             <div class="row">
@@ -243,6 +266,7 @@
 <!-- bootstrap JS
     ============================================ -->
 <script src="js/bootstrap.min.js"></script>
+<script src="lib/jquery.toast.min.js"></script>
 <!-- metisMenu JS
     ============================================ -->
 <script src="js/metisMenu/metisMenu.min.js"></script>

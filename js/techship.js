@@ -93,36 +93,52 @@ window.Techship = _.extend(Techship, {
         if (! json_ship || typeof json_ship !== 'object' || ! (json_ship.BatchNumber)) {
             return console.error(`bad json ship data`);
         }
-        let tr = $('<tr></tr>')
-        let first_package = json_ship.Packages.pop()
+        if (! json_ship.Packages && ! json_ship.Labels) {
+            return console.error(`Missing either Packages or Labels`)
+        }
+        let first_package = {}
+        if (json_ship.Packages) {
+            first_package = json_ship.Packages.pop()
+        } else if (json_ship.Labels) {
+            first_package = json_ship.Labels.pop()
+        }
         let first_tracking_id = first_package.TrackingNumber || 'N/A'
-        let first_label = first_package.Labels.pop()
+        let first_label = {}
+        if (json_ship.Packages) {
+            first_label = first_package.Labels.pop()
+        } else if (json_ship.Labels) {
+            first_label = first_package
+        }
+        let shipment_id = NaN
+        if (json_ship.Packages){
+            shipment_id = json_ship.Id
+        } else if (json_ship.Labels){
+            shipment_id = json_ship.ShipmentId
+        }
         let label_raw = first_label.Label
 
-        tr.append(`<td class="shipment_id">${json_ship.Id}</td>`)
+        let tr = $('<tr></tr>')
+
+        tr.append(`<td class="shipment_id" data-shipment_id="${shipment_id}">${shipment_id}</td>`)
             .append(`<td>${json_ship.BatchNumber}</td>`).append(`<td>${json_ship.ManifestId}</td>`)
             .append(`<td>${json_ship.ClientCode}</td>`).append(`<td>${json_ship.CarrierCode}</td>`).append(`<td>${json_ship.TransactionNumber}</td>`)
             .append(`<td>${json_ship.ShipToName}</td>`).append(`<td>${json_ship.ShipToCity}</td>`).append(`<td>${first_tracking_id}</td>`)
             .append(`<td class="zpl"><button type="button" class="btn btn-primary btn-sm">zpl</button></td>`)
             .append(`<td class="png">
-<a href="${TECHSHIP_CONFIG.relay_server}/get_labelary/${label_raw}/filetype/png/filename/${json_ship.Id}_${first_package.TrackingNumber}_label.png" target="_blank" class="btn btn-primary btn-sm">png</a>
+<a href="${TECHSHIP_CONFIG.relay_server}/get_labelary/${label_raw}/filetype/png/filename/${shipment_id}_${first_package.TrackingNumber}_label.png" target="_blank" class="btn btn-primary btn-sm">png</a>
 </td>`)
             .append(`<td class="pdf">
-<a href="${TECHSHIP_CONFIG.relay_server}/get_labelary/${label_raw}/filetype/pdf/filename/${json_ship.Id}_${first_package.TrackingNumber}_label.pdf" target="_blank" class="btn btn-primary btn-sm">pdf</a>
+<a href="${TECHSHIP_CONFIG.relay_server}/get_labelary/${label_raw}/filetype/pdf/filename/${shipment_id}_${first_package.TrackingNumber}_label.pdf" target="_blank" class="btn btn-primary btn-sm">pdf</a>
 </td>`)
 
         $shipment_table.append(tr)
         if (first_label.Type === 2) {//ZPL
-            this.get_img_fr_labelary(first_label.Label, json_ship.Id)
+            this.get_img_fr_labelary(first_label.Label, shipment_id)
         }
         $shipment_table.off('click', 'button')
-        $shipment_table.on('click', '.png button,.pdf button', function (e) {
-            let file_type = $(e.targetElement).closest('td').getClass()
-
-        })
         $shipment_table.on('click', '.zpl button', function (e) {
             let content = atob(label_raw);
-            let filename = `${json_ship.Id}_${first_package.TrackingNumber}_label_to_print.zpl`;
+            let filename = `${shipment_id}_${first_package.TrackingNumber}_label_to_print.zpl`;
             let blob = new Blob([content], {
                 type: "application/text"
             });
@@ -192,21 +208,30 @@ window.Techship = _.extend(Techship, {
         cr8_form_data.Packages = [
             {SSCC: 13579, Weight: 3.3, BoxWidth: 4.4, BoxHeight: 5.5, BoxLength: 6.6}
         ]
-        //now submit this to techship
+        //now submit this to relay server
         this.reset_ajax_settings()
-        let url = TECHSHIP_CONFIG.relay_server + `/shipments/create?duplicateHandling=2&errorLabelMode=0`
+        let relay_url = TECHSHIP_CONFIG.relay_server + `/shipments/create?duplicateHandling=2&errorLabelMode=0`
         return $.ajax(_.extend(this.ajax_setting, {
-            url: url,
+            url: relay_url,
             data: JSON.stringify(cr8_form_data),
+            dataType: 'json',
             method: 'POST',
-            timeout: 60000,
+            timeout: 120000,
             error: (error_msg) => {
-                console.error(`Error creating shipment` + error_msg.toString())
+                alert(`Error creating shipment` + error_msg.toString())
             },
             success: (created_ship) => {
-                console.log(`Shipment created__`)
-                console.log(created_ship)
-            }
+                $('#consolelog').html(created_ship)
+                $('#cr8_ship_modal').hide()
+                $(".modal-backdrop").hide()
+                $.toast({
+                    text: 'Shipment created successfully',
+                    position: 'top-center',
+                })
+                this.add_json_data_to_table(created_ship)
+
+            },
+            complete: hide_spinner
         }))
 
     },
@@ -217,6 +242,35 @@ window.Techship = _.extend(Techship, {
         let $cr8_ship_modal = $('#cr8_ship_modal')
         let modal_options = {}
         $cr8_ship_modal.modal(modal_options)
+    },
+    /**
+     * show modal to ask for data, then create shipment
+     */
+    delete_existing_shipment: function () {
+        this.reset_ajax_settings()
+        let shipment_id = $('#delete_existing_shipment_id').val()
+        let relay_url = TECHSHIP_CONFIG.relay_server + `/shipments/${shipment_id}/delete`
+        return $.ajax(_.extend(this.ajax_setting, {
+            url: relay_url,
+            method: 'PUT',
+            timeout: 120000,
+            error: (jqXHR, status, error_msg) => {
+                alert(`Error deleting shipment` + error_msg.toString())
+            },
+            success: (deletion_result) => {
+                if (!deletion_result.Success){
+                    alert(`Error deleting shipment, bad reply`)
+                }
+                $('#consolelog').html(deletion_result.Error)
+                if (! deletion_result.Success === true){
+                    alert(`Error deleting shipment, message: ` + deletion_result.Error)
+                }
+                toast(`Shipment deleted successfully!`)
+                $(`td.shipment_id[data-shipment_id = ${shipment_id}]`).closest('tr').remove()
+            },
+            complete: hide_spinner
+        }))
+
     }
 
 })
@@ -225,6 +279,7 @@ window.Techship = _.extend(Techship, {
 //start using techship
 Techship.client_code = CLIENT_CODE
 Techship.init()
+
 /*let get_shipment_xhr = Techship.get_shipment(94911)
 get_shipment_xhr.then(data => {
     $('#consolelog').append(`data here ${data}`)
@@ -242,13 +297,15 @@ get_shipment_xhr.always((data) => {
     }
 })*/
 
-$(document).ready(function () {
+function hide_spinner() {
+    $('html').removeClass('whirl')
+}
+
+jQuery(document).ready(function () {
+    // console.log(`document ready`)
     $(document).ajaxStart(function () {
         $('html').addClass('whirl')
-    })
-    $(document).ajaxStart(function () {
-        $('html').removeClass('whirl')
-    });
+    }).ajaxStop(hide_spinner);
 })
 
 function serialized_to_object(serialized_array) {
